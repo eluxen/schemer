@@ -322,8 +322,30 @@ def startswith(prefix):
 schema = Schema({"full_name": {"type": basestring, "validates": startswith("Mr")}})
 ```
 
-#### Schema level validators
+### Schema level validators
 Validation can also be done at the Schema level.
+
+```python
+from schemer.schema_level_validators import requires_exactly_one_of
+schema = Schema({"size": {"type": int},
+                 "height": {"type": int},
+                 "width": {"type": int}},
+                validates=[requires_exactly_one_of("size", ["height", "width"])])
+```
+
+#### Provided schema level validators
+Schemer provides the following schema level validators out-of-the-box:
+
+| Validator                           | Receives                            | Validates the schema... |
+| ----------------------------------- | ----------------------------------- |----------------------- |
+| `requires_at_least_one_of(*fileds)` | A list of fields or group of fields | has at least one of given fields |
+| `requires_exactly_one_of(*fields)`  | A list of fields or group of fields | has exactly one of given fields |
+| `requires_all_or_none_of(*fields)`  | A list of fields                    | has all or nont of given fields |
+| `mutually_exclusive(*fields)`       | A list of fields or group of fields | has none or one but not all of given fields |
+
+
+#### Creating custom schema level validators
+In addition to the provided schema level validators it's easy to create your own custom schema level validators:
 
 ```python
 def check_for_valid_dates():
