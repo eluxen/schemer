@@ -31,3 +31,6 @@ class ValidationException(Exception):
 
     def __str__(self):
         return repr(self._errors)
+
+    def __repr__(self):
+        return repr(self._errors)
